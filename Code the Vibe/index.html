@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3-Card Product Gallery</title>
+    <style>
+      :root {
+        --bg: #f6f7fb;
+        --text: #111827;
+        --muted: #6b7280;
+        --card: #ffffff;
+        --border: rgba(17, 24, 39, 0.12);
+        --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        --btn: #111827;
+        --btnText: #ffffff;
+        --ring: rgba(17, 24, 39, 0.16);
+      }
+
+      body.dark {
+        --bg: #0b1220;
+        --text: #e5e7eb;
+        --muted: #a1a1aa;
+        --card: #121b2e;
+        --border: rgba(229, 231, 235, 0.14);
+        --shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        --btn: #e5e7eb;
+        --btnText: #0b1220;
+        --ring: rgba(229, 231, 235, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.25s ease, color 0.25s ease;
+      }
+
+      .wrap {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 28px 18px 50px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: -0.2px;
+      }
+
+      .sub {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .toggle {
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 0 0 0 var(--ring);
+        transition: transform 0.15s ease, box-shadow 0.2s ease,
+          background 0.25s ease, border-color 0.25s ease;
+      }
+
+      .toggle:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 0 0 6px var(--ring);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transform: translateY(14px);
+        opacity: 0;
+        transition: transform 0.22s ease, box-shadow 0.22s ease,
+          border-color 0.25s ease, background 0.25s ease;
+        will-change: transform;
+      }
+
+      /* Hover effect */
+      .card:hover {
+        transform: translateY(-4px) scale(1.01);
+      }
+
+      .media {
+        height: 160px;
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(16, 185, 129, 0.25));
+        display: grid;
+        place-items: center;
+      }
+
+      .media span {
+        font-weight: 700;
+        font-size: 18px;
+        opacity: 0.9;
+      }
+
+      .content {
+        padding: 16px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .titleRow {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: start;
+      }
+
+      .title {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .price {
+        font-weight: 700;
+        font-size: 14px;
+        white-space: nowrap;
+      }
+
+      .desc {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .btn {
+        margin-top: 6px;
+        border: 0;
+        border-radius: 12px;
+        padding: 11px 12px;
+        cursor: pointer;
+        background: var(--btn);
+        color: var(--btnText);
+        font-weight: 700;
+        transition: transform 0.15s ease, filter 0.15s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.05);
+      }
+
+      /* Fade-in animation */
+      .fade-in {
+        animation: fadeUp 0.6s ease forwards;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>Product Gallery</h1>
+          <p class="sub">3 cards • hover effects • light/dark toggle • fade-in</p>
+        </div>
+
+        <button id="themeToggle" class="toggle" type="button">
+          Toggle Theme
+        </button>
+      </header>
+
+      <section class="grid">
+        <article class="card">
+          <div class="media"><span>Product 1</span></div>
+          <div class="content">
+            <div class="titleRow">
+              <h2 class="title">Minimal Backpack</h2>
+              <div class="price">$39</div>
+            </div>
+            <p class="desc">Lightweight, durable, and perfect for everyday carry.</p>
+            <button class="btn" type="button">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="media"><span>Product 2</span></div>
+          <div class="content">
+            <div class="titleRow">
+              <h2 class="title">Wireless Headphones</h2>
+              <div class="price">$79</div>
+            </div>
+            <p class="desc">Comfort fit with crisp sound and long battery life.</p>
+            <button class="btn" type="button">Add to Cart</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="media"><span>Product 3</span></div>
+          <div class="content">
+            <div class="titleRow">
+              <h2 class="title">Smart Water Bottle</h2>
+              <div class="price">$25</div>
+            </div>
+            <p class="desc">Stay hydrated with smart reminders and tracking.</p>
+            <button class="btn" type="button">Add to Cart</button>
+          </div>
+        </article>
+      </section>
+    </div>
+
+    <script>
+      // Theme toggle with persistence
+      const themeToggle = document.getElementById("themeToggle");
+      const savedTheme = localStorage.getItem("theme");
+
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+      }
+
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("dark") ? "dark" : "light"
+        );
+      });
+
+      // Fade-in on load (staggered)
+      const cards = document.querySelectorAll(".card");
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add("fade-in");
+        }, index * 120);
+      });
+    </script>
+  </body>
+</html>
