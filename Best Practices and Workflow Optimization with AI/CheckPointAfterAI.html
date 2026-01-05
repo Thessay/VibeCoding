@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing Cards</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px 16px;
+    }
+
+    .grid {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .pricing-card {
+      background-color: #fff;
+      box-shadow: 0 0 10px #ccc;
+      padding: 16px;
+      text-align: left;
+      border-radius: 8px;
+    }
+
+    .pricing-card__title {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 0 0 10px;
+    }
+
+    .pricing-card__price {
+      font-size: 18px;
+      color: green;
+      margin: 0 0 12px;
+    }
+
+    .pricing-card__features {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .pricing-card__features li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .pricing-card__features li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-card__btn {
+      background: blue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 14px;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .pricing-card__btn:hover {
+      background: darkblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" class="grid"></div>
+
+  <script>
+    /**
+     * Card(title, price, features, options?)
+     * Returns a DOM element (reusable "component")
+     */
+    function Card(title, price, features, options = {}) {
+      const {
+        buttonText = "Start Trial",
+        onButtonClick = null,
+      } = options;
+
+      // Root
+      const card = document.createElement("div");
+      card.className = "pricing-card";
+
+      // Title
+      const h2 = document.createElement("h2");
+      h2.className = "pricing-card__title";
+      h2.textContent = title;
+
+      // Price
+      const p = document.createElement("p");
+      p.className = "pricing-card__price";
+      p.textContent = price;
+
+      // Features
+      const ul = document.createElement("ul");
+      ul.className = "pricing-card__features";
+
+      (features || []).forEach((f) => {
+        const li = document.createElement("li");
+        li.textContent = f;
+        ul.appendChild(li);
+      });
+
+      // Button
+      const btn = document.createElement("button");
+      btn.className = "pricing-card__btn";
+      btn.type = "button";
+      btn.textContent = buttonText;
+
+      if (typeof onButtonClick === "function") {
+        btn.addEventListener("click", () => onButtonClick({ title, price, features }));
+      }
+
+      // Assemble
+      card.appendChild(h2);
+      card.appendChild(p);
+      card.appendChild(ul);
+      card.appendChild(btn);
+
+      return card;
+    }
+
+    // Example usage (data-driven rendering)
+    const plans = [
+      {
+        title: "Basic Plan",
+        price: "$9.99 / month",
+        features: ["1 GB Storage", "Basic Support", "All Core Features"],
+      },
+      {
+        title: "Pro Plan",
+        price: "$19.99 / month",
+        features: ["10 GB Storage", "Priority Support", "Advanced Features"],
+      },
+      {
+        title: "Enterprise",
+        price: "$49.99 / month",
+        features: ["Unlimited Storage", "Dedicated Support", "Custom Integrations"],
+      },
+    ];
+
+    const app = document.getElementById("app");
+
+    plans.forEach((plan) => {
+      const cardEl = Card(plan.title, plan.price, plan.features, {
+        buttonText: "Start Trial",
+        onButtonClick: (payload) => alert(`Clicked: ${payload.title}`),
+      });
+
+      app.appendChild(cardEl);
+    });
+  </script>
+</body>
+</html>
